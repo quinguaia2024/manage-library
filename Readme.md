@@ -23,3 +23,14 @@ sgb_biblioteca/
             │       └── V1__Initial_Schema.sql
             └── fxml/                 # Arquivos FXML para a interface gráfica
                 └── LoginView.fxml
+
+                | Módulo | Nome da Branch | Objetivo |
+| :--- | :--- | :--- |
+| **Base** | `main` ou `master` | *Branch* principal, estável e de produção. |
+| **Autenticação** | `feat/auth-login` | Implementação do ecrã de Login e lógica de autenticação. |
+| **Utilizadores** | `feat/user-management` | CRUD de Administradores, Bibliotecários e Leitores. |
+| **Catálogo/Acervo** | `feat/catalog-management` | CRUD de Obras e Exemplares. |
+| **Circulação** | `feat/circulation` | Lógica de Empréstimos, Devoluções e Renovações. |
+| **Reservas** | `feat/reservations` | Gestão da fila de espera e notificação de reservas. |
+| **Multas** | `feat/fines-management` | Cálculo e gestão de multas por atraso/dano. |
+| **Relatórios** | `feat/reports` | Implementação dos ecrãs e lógica de geração de relatórios. |
