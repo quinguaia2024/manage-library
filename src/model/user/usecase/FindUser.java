@@ -1,15 +1,15 @@
 package model.user.usecase;
 
-import model.user.user;
+import model.user.User;
 
 public class FindUser {
-    private model.user.userRepo userRepository;
-    public findUser(model.user.userRepo userRepository) {
+    private model.user.UserRepo userRepository;
+    public FindUser(model.user.UserRepo userRepository) {
         this.userRepository = userRepository;
     }
 
-    user execute(String id) {
-       user userFound =  this.userRepository.findById(id);
+    User execute(String id) {
+       User userFound =  this.userRepository.findById(id);
        return userFound;
     }
 }

@@ -1,17 +1,17 @@
 package model.user.usecase;
 
 
-import model.user.user;
+import model.user.User;
 
 public class FindDeletedUsers {
-    private model.user.userRepo userRepository;
+    private model.user.UserRepo userRepository;
 
-    public findDeletedUsers(model.user.userRepo userRepository) {
+    public FindDeletedUsers(model.user.UserRepo userRepository) {
         this.userRepository = userRepository;
     }
 
-    user[] execute() {
-       user[] usersFound =  this.userRepository.findDeletedUsers();
+    User[] execute() {
+       User[] usersFound =  this.userRepository.findDeletedUsers();
        return usersFound;
     }
 }
