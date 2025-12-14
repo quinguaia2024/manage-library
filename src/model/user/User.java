@@ -1,17 +1,17 @@
 package model.user;
 
 
-enum userAccessStatus {
+enum UserAccessStatus {
     ADMIN,
     READER,
     LIBRARIAN
 }
 
 
-abstract class userProps{
+abstract class UserProps {
     String firstName;
     String lastName;
-    userAccessStatus accessStatus;
+    UserAccessStatus accessStatus;
     String email;
     String password;
     String phoneNumber;
@@ -19,13 +19,13 @@ abstract class userProps{
 }
 
 
-public class user extends model.core.entity<userProps> {
-    private user(userProps props, String id) {
+public class User extends model.core.Entity<UserProps> {
+    private User(UserProps props, String id) {
         super(props, id);
     }
 
-    public static user create(userProps props, String id) {
-        return new user(props, id);
+    public static User create(UserProps props, String id) {
+        return new User(props, id);
     }
 
     String getFullName() {
@@ -52,7 +52,7 @@ public class user extends model.core.entity<userProps> {
         return this.getProps().lastName;
     }
     
-    userAccessStatus getAccessStatus() {
+    UserAccessStatus getAccessStatus() {
         return this.getProps().accessStatus;
     }   
     
