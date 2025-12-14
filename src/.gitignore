@@ -1,5 +1,5 @@
-./backend instructions
-./.gradle/
-./build.gradle
-./gradle/
-./settings.gradle
+backend instructions
+.gradle/
+build.gradle
+gradle/
+settings.gradle
