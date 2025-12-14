@@ -1,4 +1,4 @@
-package domain.shared;
+package model.core;
 
 import java.sql.Date;
 
@@ -9,17 +9,17 @@ public class entity<Props> {
     private Date updatedAt;
     private Boolean status;
 
-    private entity(Props props, Date createdAt, Date updatedAt, Boolean status, Optional<String> id) {
-        this.id = id == null ? id : java.util.UUID.randomUUID().toString();
+    protected entity(Props props,String id) {
+        this.id = id;
         this.props = props;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.status = status;
+        this.createdAt = new Date(System.currentTimeMillis());
+        this.updatedAt = null;
+        this.status = true;
     }
 
-    public static <Props> entity<Props> create(Props props, Optional<String> id) {
-        Date now = new Date(System.currentTimeMillis());
-        return new entity<>(props, now, now, true, id);
+    public static <Props> entity<Props> create(Props props, String id) {
+        String generatedId = id == null ? java.util.UUID.randomUUID().toString() : id;
+        return new entity<>(props,generatedId);
     }
 
     public String getId() {
