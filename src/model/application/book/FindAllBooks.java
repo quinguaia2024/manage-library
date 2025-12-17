@@ -1,4 +1,4 @@
-package model.book.usecase;
+package model.application.book;
 import model.book.Book;
 import model.book.BookRepo;
 

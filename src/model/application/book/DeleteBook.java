@@ -1,5 +1,5 @@
-package model.book.usecase;
-import model.book.Book;
+package model.application.book;
+
 import model.book.BookRepo;
 
 public class DeleteBook {

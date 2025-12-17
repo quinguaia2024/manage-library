@@ -1,18 +1,18 @@
 package model.core;
 
-import java.sql.Date;
+import java.time.Instant;
 
 public class Entity<Props> {
     private String id;
     private Props props;
-    private Date createdAt;
-    private Date updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     private Boolean status;
 
     protected Entity(Props props, String id) {
         this.id = id;
         this.props = props;
-        this.createdAt = new Date(System.currentTimeMillis());
+        this.createdAt = Instant.now();
         this.updatedAt = null;
         this.status = true;
     }
@@ -28,11 +28,11 @@ public class Entity<Props> {
     public Props getProps() {
         return props;
     }
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }   
 
@@ -42,7 +42,7 @@ public class Entity<Props> {
 
     public void changeStatus() {
         this.status = !status;
-        this.updatedAt = new Date(System.currentTimeMillis());
+        this.updatedAt = Instant.now();
         return;
     }
 

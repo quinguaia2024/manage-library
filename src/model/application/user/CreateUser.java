@@ -1,4 +1,4 @@
-package model.user.usecase;
+package model.application.user;
 
 import model.user.User;
 import model.user.UserRepo;

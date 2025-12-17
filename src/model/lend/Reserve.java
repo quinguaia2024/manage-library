@@ -1,45 +1,57 @@
 package model.lend;
 
 import model.core.Entity;
-import java.sql.Date;
+import model.core.Aggregateroot;
+import java.time.Instant;
 
 
-enum reservationStatus {
+enum ReservationStatus {
     ACTIVE,
     CANCELLED,
     ATTENDED
 }
 
-abstract class reserveProps {
-    public String bookId;
-    public String readerId;
-    public Date reserveDate;
+
+abstract class ReserveProps {
+    String bookId;
+    String readerId;
+    Instant reserveDate;
 }
 
-public class Reserve extends Entity<reserveProps> implements model.core.Aggregateroot {
-    private reservationStatus ReservationStatus;
-    public Reserve(String id, reserveProps props) {
+
+public class Reserve extends Entity<ReserveProps> implements Aggregateroot {
+    private ReservationStatus reservationStatus;
+
+    private Reserve(ReserveProps props, String id) {
         super(props, id);
-        this.ReservationStatus = reservationStatus.ACTIVE; 
+        this.reservationStatus = ReservationStatus.ACTIVE;
     }
 
-    public String getId(){
-        return this.getProps().bookId;
+    public static Reserve makeReservation(String id, String bookId, String readerId, Instant reserveDate) {
+      final ReserveProps props = new ReserveProps(){};
+        props.bookId = bookId;
+        props.readerId = readerId;
+        props.reserveDate = reserveDate;
+        return new Reserve(props, id);
     }
 
-    public reservationStatus getReservationStatus() {
-        return ReservationStatus;
+    public ReservationStatus getReservationStatus() {
+        return reservationStatus;
     }
 
-    public void setReservationStatus(reservationStatus status) {
-        this.ReservationStatus = status;
+    public void setReservationStatus(ReservationStatus status) {
+        this.reservationStatus = status;
     }
 
-    public Date getReserveDate() {
+    public Instant getReserveDate() {
         return this.getProps().reserveDate;
     }
 
     public String getReaderId() {
         return this.getProps().readerId;
+    }
+
+    public String getBookId() {
+        return this.getProps().bookId;
     }
 }

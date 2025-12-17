@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.manage'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '17'
+
+// Use Java toolchain for reproducible builds
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+}
+
+// Configure test task to use JUnit Platform and show useful logs
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
+}
