@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="ao.co.imetro.sgbu.controller.LivrosController"
+      spacing="20" styleClass="content-area">
+    
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Text text="Gestão de Acervo" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Text text="Total: 0 livros" style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"/>
+    </HBox>
+    
+    <!-- Barra de Ferramentas -->
+    <HBox styleClass="toolbar" spacing="15" alignment="CENTER_LEFT">
+        <Button fx:id="btnNovoLivro" text="Novo Livro" styleClass="toolbar-button" 
+                onAction="#handleNovoLivro">
+            <graphic>
+                <FontIcon iconLiteral="mdi2p-plus-circle" iconSize="18"/>
+            </graphic>
+        </Button>
+        
+        <Button fx:id="btnEditar" text="Editar" styleClass="toolbar-button" 
+                onAction="#handleEditar" disable="true"
+                style="-fx-background-color: #3e5c76;">
+            <graphic>
+                <FontIcon iconLiteral="mdi2p-pencil" iconSize="18"/>
+            </graphic>
+        </Button>
+        
+        <Button fx:id="btnRemover" text="Remover" styleClass="toolbar-button" 
+                onAction="#handleRemover" disable="true"
+                style="-fx-background-color: #e74c3c;">
+            <graphic>
+                <FontIcon iconLiteral="mdi2d-delete" iconSize="18"/>
+            </graphic>
+        </Button>
+        
+        <Separator orientation="VERTICAL" prefHeight="30"/>
+        
+        <Button text="Exportar" styleClass="toolbar-button" 
+                style="-fx-background-color: #27ae60;">
+            <graphic>
+                <FontIcon iconLiteral="mdi2d-download" iconSize="18"/>
+            </graphic>
+        </Button>
+        
+        <Region HBox.hgrow="ALWAYS"/>
+        
+        <!-- Barra de Pesquisa -->
+        <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-background-color: #f8f9fa; -fx-border-color: #d1d8e0; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-padding: 8px 15px;">
+            <FontIcon iconLiteral="mdi2m-magnify" iconSize="18" iconColor="#7f8c8d"/>
+            <TextField fx:id="searchField" promptText="Pesquisar por título, autor, ISBN..." 
+                       styleClass="search-field" prefWidth="300"
+                       onKeyReleased="#handleSearch"
+                       style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
+        </HBox>
+    </HBox>
+    
+    <!-- Tabela de Livros -->
+    <VBox VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-padding: 15px;">
+        <TableView fx:id="livrosTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn text="ID" prefWidth="60" fx:id="colId"/>
+                <TableColumn text="Título" prefWidth="300" fx:id="colTitulo"/>
+                <TableColumn text="Autor" prefWidth="200" fx:id="colAutor"/>
+                <TableColumn text="ISBN" prefWidth="130" fx:id="colIsbn"/>
+                <TableColumn text="Editora" prefWidth="150" fx:id="colEditora"/>
+                <TableColumn text="Ano" prefWidth="80" fx:id="colAno"/>
+                <TableColumn text="Quantidade" prefWidth="100" fx:id="colQuantidade"/>
+                <TableColumn text="Status" prefWidth="120" fx:id="colStatus"/>
+            </columns>
+            
+            <!-- Placeholder quando não há dados -->
+            <placeholder>
+                <VBox alignment="CENTER" spacing="15" style="-fx-padding: 50px;">
+                    <FontIcon iconLiteral="mdi2b-book-off" iconSize="64" iconColor="#bdc3c7"/>
+                    <Text text="Nenhum livro cadastrado" style="-fx-font-size: 16px; -fx-fill: #7f8c8d;"/>
+                    <Text text="Clique em 'Novo Livro' para adicionar o primeiro item ao acervo" 
+                          style="-fx-font-size: 13px; -fx-fill: #95a5a6;"/>
+                </VBox>
+            </placeholder>
+        </TableView>
+    </VBox>
+    
+    <!-- Rodapé com paginação (futuro) -->
+    <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px 0;">
+        <Text text="Mostrando 0 de 0 registros" style="-fx-font-size: 12px; -fx-fill: #7f8c8d;"/>
+    </HBox>
+    
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</VBox>

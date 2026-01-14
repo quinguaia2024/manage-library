@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="ao.co.imetro.sgbu.controller.LoginController"
+           styleClass="login-container">
+    
+    <VBox alignment="CENTER" spacing="30" maxWidth="450" maxHeight="600" styleClass="login-card">
+        
+        <!-- Logo e Cabeçalho -->
+        <VBox alignment="CENTER" spacing="15" styleClass="header-section">
+            <!-- Placeholder para Logo IMETRO -->
+            <HBox alignment="CENTER" spacing="10" styleClass="logo-container">
+                <FontIcon iconLiteral="mdi2b-book-education" iconSize="64" styleClass="logo-icon"/>
+            </HBox>
+            
+            <Text text="SGBU" styleClass="title-text"/>
+            <Text text="Sistema de Gestão de Biblioteca Universitária" styleClass="subtitle-text"/>
+            <Text text="IMETRO - Universidade Metropolitana de Angola" styleClass="institution-text"/>
+        </VBox>
+        
+        <Separator prefWidth="350" styleClass="divider"/>
+        
+        <!-- Formulário de Login -->
+        <VBox spacing="20" styleClass="form-section">
+            <VBox spacing="8">
+                <Label text="E-mail Institucional" styleClass="form-label"/>
+                <HBox styleClass="input-container">
+                    <FontIcon iconLiteral="mdi2e-email-outline" iconSize="20" styleClass="input-icon"/>
+                    <TextField fx:id="emailField" promptText="exemplo@imetro.ao" styleClass="form-input"/>
+                </HBox>
+            </VBox>
+            
+            <VBox spacing="8">
+                <Label text="Senha" styleClass="form-label"/>
+                <HBox styleClass="input-container">
+                    <FontIcon iconLiteral="mdi2l-lock-outline" iconSize="20" styleClass="input-icon"/>
+                    <PasswordField fx:id="passwordField" promptText="Digite sua senha" styleClass="form-input"/>
+                </HBox>
+            </VBox>
+            
+            <HBox alignment="CENTER_RIGHT">
+                <Hyperlink text="Esqueci a senha" styleClass="forgot-link" onAction="#handleForgotPassword"/>
+            </HBox>
+        </VBox>
+        
+        <!-- Botões de Ação -->
+        <VBox spacing="15" styleClass="buttons-section">
+            <Button text="ENTRAR" prefWidth="350" prefHeight="45" styleClass="btn-primary" 
+                    onAction="#handleLogin" defaultButton="true">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2l-login" iconSize="18"/>
+                </graphic>
+            </Button>
+            
+            <HBox alignment="CENTER" spacing="5">
+                <Text text="Não tem uma conta?" styleClass="help-text"/>
+                <Hyperlink text="Criar nova conta" styleClass="register-link" onAction="#handleRegister"/>
+            </HBox>
+
+            <HBox alignment="CENTER" spacing="5">
+                <Text text="Problemas para acessar?" styleClass="help-text"/>
+                <Hyperlink text="Suporte Técnico" styleClass="support-link" onAction="#handleSupport"/>
+            </HBox>
+        </VBox>
+        
+        <!-- Rodapé -->
+        <VBox alignment="CENTER" spacing="5" styleClass="footer-section">
+            <Text text="SGBU v1.0 © 2026 IMETRO" styleClass="footer-text"/>
+        </VBox>
+        
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
+    </VBox>
+</StackPane>

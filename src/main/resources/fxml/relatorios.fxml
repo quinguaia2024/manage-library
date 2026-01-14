@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="ao.co.imetro.sgbu.controller.RelatoriosController"
+      spacing="20" styleClass="content-view">
+    
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <VBox>
+            <Text text="Relatórios" styleClass="page-title"/>
+            <Text text="Análise estatística da biblioteca" styleClass="page-subtitle"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Exportar PDF" styleClass="btn-secondary">
+            <graphic>
+                <FontIcon iconLiteral="mdi2f-file-pdf-box" iconSize="20"/>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color:transparent;">
+        <VBox spacing="30">
+            <!-- Linha 1: Gráficos -->
+            <HBox spacing="20">
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <Text text="Livros mais Emprestados" styleClass="card-title"/>
+                    <BarChart fx:id="booksChart" minHeight="300">
+                        <xAxis>
+                            <CategoryAxis label="Livros"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Empréstimos"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+                
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <Text text="Status do Acervo" styleClass="card-title"/>
+                    <PieChart fx:id="statusChart" minHeight="300"/>
+                </VBox>
+            </HBox>
+
+            <!-- Linha 2: Resumo Financeiro ou Outros -->
+            <VBox styleClass="card">
+                <Text text="Resumo Mensal" styleClass="card-title"/>
+                <TableView fx:id="summaryTable" prefHeight="200">
+                    <columns>
+                        <TableColumn text="Mês" />
+                        <TableColumn text="Novos Utentes" />
+                        <TableColumn text="Empréstimos" />
+                        <TableColumn text="Devoluções" />
+                        <TableColumn text="Multas (AKZ)" />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+</VBox>

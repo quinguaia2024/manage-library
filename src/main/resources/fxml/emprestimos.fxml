@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="ao.co.imetro.sgbu.controller.EmprestimosController"
+      spacing="20" styleClass="content-view">
+    
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <VBox>
+            <Text text="Gestão de Empréstimos" styleClass="page-title"/>
+            <Text text="Controle de saídas e devoluções" styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <TabPane VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab text="Empréstimos Ativos">
+                <content>
+                    <VBox spacing="10" style="-fx-padding: 15;">
+                        <TableView fx:id="activeLoansTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn text="ID" />
+                                <TableColumn text="Utente" prefWidth="200"/>
+                                <TableColumn text="Livro" prefWidth="200"/>
+                                <TableColumn text="Data Empréstimo" />
+                                <TableColumn text="Data Devolução" />
+                                <TableColumn text="Status" />
+                                <TableColumn text="Ações" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
+                    </VBox>
+                </content>
+            </Tab>
+            <Tab text="Novo Empréstimo">
+                <content>
+                     <VBox spacing="20" style="-fx-padding: 20;" alignment="TOP_CENTER">
+                        <GridPane hgap="20" vgap="20" alignment="CENTER" maxWidth="600">
+                             <Label text="Utente:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                             <ComboBox promptText="Selecione o Utente" prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                             <Label text="Livro:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                             <ComboBox promptText="Selecione o Livro" prefWidth="300" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                             <Label text="Data Devolução:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                             <DatePicker prefWidth="300" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        </GridPane>
+                        
+                        <Button text="Registrar Empréstimo" styleClass="btn-primary" prefWidth="200">
+                             <graphic>
+                                <FontIcon iconLiteral="mdi2c-check" iconSize="18"/>
+                            </graphic>
+                        </Button>
+                     </VBox>
+                </content>
+            </Tab>
+             <Tab text="Histórico">
+                <content>
+                    <VBox spacing="10" style="-fx-padding: 15;">
+                        <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn text="ID" />
+                                <TableColumn text="Utente" />
+                                <TableColumn text="Livro" />
+                                <TableColumn text="Data Devolução" />
+                                <TableColumn text="Multa" />
+                            </columns>
+                             <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
+                    </VBox>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+
+</VBox>
