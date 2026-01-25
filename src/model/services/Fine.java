@@ -1,4 +1,4 @@
-package model.user;
+package model.services;
 
 import model.core.Entity;
 

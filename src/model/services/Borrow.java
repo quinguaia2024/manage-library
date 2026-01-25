@@ -1,4 +1,4 @@
-package model.lend;
+package model.services;
 
 import java.time.Instant;
 
@@ -21,10 +21,12 @@ abstract class BorrowProps {
 public class Borrow extends Entity<BorrowProps> implements model.core.Aggregateroot {
     private Instant returnDate;
     private BorrowStatus Borrowstatus;
+    private Fine fineAttached;
     private Borrow(BorrowProps props, String id) {
         super(props, id);
         this.returnDate = null;
-        this.Borrowstatus = BorrowStatus.ACTIVE;   
+        this.Borrowstatus = BorrowStatus.ACTIVE;  
+        this.fineAttached = null;
     }
 
     public static Borrow makeBorrow(String id, String bookId, String readerId, Instant borrowDate, Instant whenToReturnDate) {
@@ -67,6 +69,14 @@ public class Borrow extends Entity<BorrowProps> implements model.core.Aggregater
 
     Instant readWhenToReturnDate() {
         return this.getProps().whenToreturnDate;
+    }
+
+    public Fine getFineAttached() {
+        return this.fineAttached;
+    }
+
+    public void attachFine(int amount, String idFine) {
+        this.fineAttached = Fine.addFine(this.getId(), this.getProps().readerId, amount, idFine);
     }
 
     

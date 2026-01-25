@@ -1,15 +1,15 @@
-package model.application.book;
+package model.book.services;
 import model.book.Book;
 import model.book.BookRepo;
 
-public class FindAllBooks {
+public class FindDeletedBook {
     private BookRepo bookRepository;
 
-    public FindAllBooks(BookRepo bookRepository) {
+    public FindDeletedBook(BookRepo bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     public Book[] execute() {
-        return this.bookRepository.findAll();
+        return this.bookRepository.findDeletedBooks();
     }
-}
+}   

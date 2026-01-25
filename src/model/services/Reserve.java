@@ -1,4 +1,4 @@
-package model.lend;
+package model.services;
 
 import model.core.Entity;
 import model.core.Aggregateroot;

@@ -1,4 +1,4 @@
-package model.lend;
+package model.services;
 
 // import model.lend.Borrow;
 import java.util.List;

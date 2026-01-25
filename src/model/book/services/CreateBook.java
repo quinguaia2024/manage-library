@@ -1,4 +1,4 @@
-package model.application.book;
+package model.book.services;
 
 import model.book.Book;
 import model.book.BookRepo;
