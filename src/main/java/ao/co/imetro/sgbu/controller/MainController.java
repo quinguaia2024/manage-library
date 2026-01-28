@@ -1,6 +1,8 @@
 package ao.co.imetro.sgbu.controller;
 
 import ao.co.imetro.sgbu.MainApp;
+import ao.co.imetro.sgbu.model.enums.PerfilUsuario;
+import ao.co.imetro.sgbu.model.service.AutenticacaoService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,13 +38,27 @@ public class MainController {
     private Button btnAcervo;
 
     @FXML
-    private Button btnUtentes;
+    private Button btnUsuarios;
 
     @FXML
     private Button btnEmprestimos;
 
     @FXML
-    private Button btnRelatorios;
+    private Button btnExemplares;
+
+    @FXML
+    private Button btnMultas;
+
+    @FXML
+    private Button btnReservas;
+    
+    @FXML
+    private Button btnEstatisticas;
+
+    @FXML
+    private Button btnConfiguracoes;
+
+    private AutenticacaoService autenticacaoService;
 
     /**
      * Inicialização do controlador
@@ -50,9 +66,45 @@ public class MainController {
      */
     @FXML
     public void initialize() {
+        autenticacaoService = AutenticacaoService.getInstance();
+        
+        // Aplicar controle de acesso baseado no perfil do usuário
+        aplicarControleDeAcesso();
+        
         // Define o Dashboard como ativo por padrão e carrega o conteúdo.
         // Se precisares de outra tela inicial, altera esta chamada.
         handleDashboard(new ActionEvent());
+    }
+
+    /**
+     * Aplica controle de acesso baseado no perfil do usuário logado
+     * Apenas ADMINISTRADOR pode acessar Gestão de Usuários
+     */
+    private void aplicarControleDeAcesso() {
+        if (autenticacaoService.getUsuarioLogado() == null) {
+            showAlert(Alert.AlertType.ERROR, "Erro", "Nenhum usuário logado!");
+            return;
+        }
+
+        PerfilUsuario perfilUsuario = autenticacaoService.getUsuarioLogado().getPerfil();
+
+        // Regras de visibilidade por perfil
+        boolean isAdmin = perfilUsuario == PerfilUsuario.ADMINISTRADOR;
+        boolean isBibliotecario = perfilUsuario == PerfilUsuario.BIBLIOTECARIO;
+        boolean isLeitor = perfilUsuario == PerfilUsuario.ESTUDANTE || perfilUsuario == PerfilUsuario.DOCENTE;
+
+        setMenuVisibility(btnDashboard, true);
+        setMenuVisibility(btnConfiguracoes, true);
+
+        setMenuVisibility(btnUsuarios, isAdmin);
+
+        setMenuVisibility(btnAcervo, isAdmin || isBibliotecario);
+        setMenuVisibility(btnExemplares, isAdmin || isBibliotecario);
+        setMenuVisibility(btnMultas, true); // Todos podem ver suas multas
+        setMenuVisibility(btnEstatisticas, isAdmin || isBibliotecario);
+
+        setMenuVisibility(btnEmprestimos, isAdmin || isBibliotecario || isLeitor);
+        setMenuVisibility(btnReservas, isAdmin || isBibliotecario || isLeitor);
     }
 
     /**
@@ -69,7 +121,7 @@ public class MainController {
     }
 
     /**
-     * Navega para a tela de Gestão de Acervo.
+     * Navega para a tela de Gestão de Obras.
      * 
      * @param event O evento de clique.
      */
@@ -80,13 +132,20 @@ public class MainController {
     }
 
     /**
-     * Navega para a tela de Gestão de Utentes.
+     * Navega para a tela de Gestão de Usuários.
+     * Apenas ADMINISTRADOR pode acessar.
      * 
      * @param event O evento de clique.
      */
     @FXML
-    private void handleUtentes(ActionEvent event) {
-        setActiveButton(btnUtentes);
+    private void handleUsuarios(ActionEvent event) {
+        // Verificação extra de segurança
+        if (autenticacaoService.getUsuarioLogado().getPerfil() != PerfilUsuario.ADMINISTRADOR) {
+            showAlert(Alert.AlertType.WARNING, "Acesso Negado", 
+                    "Apenas administradores podem acessar Gestão de Usuários.");
+            return;
+        }
+        setActiveButton(btnUsuarios);
         loadContent("/fxml/utentes.fxml");
     }
 
@@ -102,14 +161,66 @@ public class MainController {
     }
 
     /**
-     * Navega para a tela de Relatórios.
+     * Navega para a tela de Gestão de Exemplares.
      * 
      * @param event O evento de clique.
      */
     @FXML
-    private void handleRelatorios(ActionEvent event) {
-        setActiveButton(btnRelatorios);
-        loadContent("/fxml/relatorios.fxml");
+    private void handleExemplares(ActionEvent event) {
+        setActiveButton(btnExemplares);
+        loadContent("/fxml/exemplares.fxml");
+    }
+
+    /**
+     * Navega para a tela de Gestão de Multas.
+     * 
+     * @param event O evento de clique.
+     */
+    @FXML
+    private void handleMultas(ActionEvent event) {
+        setActiveButton(btnMultas);
+        loadContent("/fxml/multas.fxml");
+    }
+
+    /**
+     * Navega para a tela de Gestão de Reservas.
+     * 
+     * @param event O evento de clique.
+     */
+    @FXML
+    private void handleReservas(ActionEvent event) {
+        setActiveButton(btnReservas);
+        loadContent("/fxml/reservas.fxml");
+    }
+    
+    /**
+     * Navega para a tela de Estatísticas.
+     * Apenas ADMINISTRADOR e BIBLIOTECARIO podem acessar.
+     * 
+     * @param event O evento de clique.
+     */
+    @FXML
+    private void handleEstatisticas(ActionEvent event) {
+        // Verificação extra de segurança
+        PerfilUsuario perfil = autenticacaoService.getUsuarioLogado().getPerfil();
+        if (perfil != PerfilUsuario.ADMINISTRADOR && perfil != PerfilUsuario.BIBLIOTECARIO) {
+            showAlert(Alert.AlertType.WARNING, "Acesso Negado", 
+                    "Apenas administradores e bibliotecários podem acessar Estatísticas.");
+            return;
+        }
+        setActiveButton(btnEstatisticas);
+        loadContent("/fxml/estatisticas.fxml");
+    }
+
+    /**
+     * Navega para a tela de Configurações/Perfil.
+     * 
+     * @param event O evento de clique.
+     */
+    @FXML
+    private void handleConfiguracoes(ActionEvent event) {
+        setActiveButton(btnConfiguracoes);
+        loadContent("/fxml/perfil.fxml");
     }
 
     /**
@@ -133,7 +244,6 @@ public class MainController {
                 MainApp.setScene("/fxml/login.fxml", "SGBU - Sistema de Gestão de Biblioteca | IMETRO");
             } catch (IOException e) {
                 showAlert(Alert.AlertType.ERROR, "Erro", "Não foi possível retornar à tela de login.");
-                e.printStackTrace();
             }
         }
     }
@@ -168,9 +278,13 @@ public class MainController {
         // Remove a classe 'active' de todos os botões para "limpar" a seleção anterior.
         btnDashboard.getStyleClass().remove("active");
         btnAcervo.getStyleClass().remove("active");
-        btnUtentes.getStyleClass().remove("active");
+        btnUsuarios.getStyleClass().remove("active");
         btnEmprestimos.getStyleClass().remove("active");
-        btnRelatorios.getStyleClass().remove("active");
+        btnExemplares.getStyleClass().remove("active");
+        btnMultas.getStyleClass().remove("active");
+        btnReservas.getStyleClass().remove("active");
+        if (btnEstatisticas != null) btnEstatisticas.getStyleClass().remove("active");
+        btnConfiguracoes.getStyleClass().remove("active");
 
         // Adiciona a classe 'active' apenas ao botão atual.
         if (!activeButton.getStyleClass().contains("active")) {
@@ -193,5 +307,17 @@ public class MainController {
         alert.setContentText(message);
         alert.initOwner(MainApp.getPrimaryStage());
         alert.showAndWait();
+    }
+
+    /**
+     * Controla visibilidade e layout de um item do menu.
+     */
+    private void setMenuVisibility(Button button, boolean visible) {
+        if (button == null) {
+            return;
+        }
+        button.setVisible(visible);
+        button.setManaged(visible);
+        button.setDisable(!visible);
     }
 }

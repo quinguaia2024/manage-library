@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ao.co.imetro.sgbu.database.DatabaseInitializer;
 
 import java.io.IOException;
 
@@ -33,6 +34,15 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         MainApp.primaryStage = stage;
+
+        // Inicializar banco de dados
+        try {
+            DatabaseInitializer.initializeDatabase();
+            DatabaseInitializer.insertDefaultAdmin();
+        } catch (Exception e) {
+            System.err.println("Erro ao inicializar banco de dados: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         // Carrega o arquivo FXML da tela de login.
         // Podes alterar para carregar outra tela inicial se preferires.

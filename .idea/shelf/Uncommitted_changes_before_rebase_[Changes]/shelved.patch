@@ -1,0 +1,90 @@
+Index: src/model/book/Book.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model.book;\n\nimport model.core.Entity;\n\nabstract class BookProps {\n    String title;\n    String author;\n    String isbn;\n    int publicationYear;\n}\n\npublic class Book extends Entity<BookProps> {\n\n    private Book(BookProps props, String id) {\n        super(props, id);\n    }\n\n    public static Book create(BookProps props, String id) {\n        return new Book(props, id);\n    }\n\n    String getTitle() {\n        return this.getProps().title;\n    }\n\n    String getAuthor() {\n        return this.getProps().author;\n    }\n\n    String getIsbn() {\n        return this.getProps().isbn;\n    }\n\n    int getPublicationYear() {\n        return this.getProps().publicationYear;\n    }\n    \n}\n
+===================================================================
+diff --git a/src/model/book/Book.java b/src/model/book/Book.java
+--- a/src/model/book/Book.java	(revision 2372a900cf4901cf43790f1abf3f09ef3b79aa3d)
++++ b/src/model/book/Book.java	(date 1767899310035)
+@@ -33,6 +33,5 @@
+ 
+     int getPublicationYear() {
+         return this.getProps().publicationYear;
+-    }
+-    
++
+ }
+Index: src/model/user/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model.user;\n\n\nenum UserAccessStatus {\n    ADMIN,\n    READER,\n    LIBRARIAN\n}\n\n\nabstract class UserProps {\n    String firstName;\n    String lastName;\n    UserAccessStatus accessStatus;\n    String email;\n    String password;\n    String phoneNumber;\n    String address;\n}\n\n\npublic class User extends model.core.Entity<UserProps> {\n    private User(UserProps props, String id) {\n        super(props, id);\n    }\n\n    public static User create(UserProps props, String id) {\n        return new User(props, id);\n    }\n\n    String getFullName() {\n        return this.getProps().firstName + \" \" + this.getProps().lastName;\n    }\n\n    String getEmail() {\n        return this.getProps().email;\n    }\n\n    String getPhoneNumber() {\n        return this.getProps().phoneNumber;\n    }\n\n    String getAddress() {\n        return this.getProps().address;\n    }\n\n    String getFirstName() {\n        return this.getProps().firstName;\n    }\n\n    String getLastName() {\n        return this.getProps().lastName;\n    }\n    \n    UserAccessStatus getAccessStatus() {\n        return this.getProps().accessStatus;\n    }   \n    \n}\n
+===================================================================
+diff --git a/src/model/user/User.java b/src/model/user/User.java
+--- a/src/model/user/User.java	(revision 2372a900cf4901cf43790f1abf3f09ef3b79aa3d)
++++ b/src/model/user/User.java	(date 1767900364864)
+@@ -1,25 +1,31 @@
+ package model.user;
+ 
+ 
+-enum UserAccessStatus {
++enum Roles{
+     ADMIN,
+     READER,
+     LIBRARIAN
+ }
+ 
++enum UserStatus {
++    Active,
++    Inactive
++}
++
+ 
+ abstract class UserProps {
+-    String firstName;
+-    String lastName;
+-    UserAccessStatus accessStatus;
++    String Name
++    Roles  roles;
+     String email;
+     String password;
+     String phoneNumber;
+     String address;
++    UserStatus status;
+ }
+ 
+ 
+ public class User extends model.core.Entity<UserProps> {
++
+     private User(UserProps props, String id) {
+         super(props, id);
+     }
+@@ -28,10 +34,6 @@
+         return new User(props, id);
+     }
+ 
+-    String getFullName() {
+-        return this.getProps().firstName + " " + this.getProps().lastName;
+-    }
+-
+     String getEmail() {
+         return this.getProps().email;
+     }
+@@ -49,11 +51,14 @@
+     }
+ 
+     String getLastName() {
+-        return this.getProps().lastName;
++        return this.getProp().lastName;
+     }
+-    
+-    UserAccessStatus getAccessStatus() {
++
++    Roles getRoles() {
+         return this.getProps().accessStatus;
+-    }   
++    }
++    UserStatus getStatus(){
++        return
++    }
+     
+ }

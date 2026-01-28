@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="ao.co.imetro.sgbu.controller.ReservasController"
+      spacing="20" styleClass="content-area" minWidth="600" minHeight="400">
+    
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Text text="Gestão de Reservas" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Text text="Reservas de Obras" style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"/>
+    </HBox>
+    
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
+        <VBox spacing="15">
+            <!-- Barra de Ferramentas e Filtros -->
+            <HBox styleClass="toolbar" spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 10px;">
+                <Button fx:id="btnNovaReserva" text="Nova Reserva" styleClass="toolbar-button" 
+                        onAction="#handleNovaReserva">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2p-plus-circle" iconSize="18"/>
+                    </graphic>
+                </Button>
+                
+                <Button fx:id="btnConfirmar" text="Confirmar Levantamento" styleClass="toolbar-button" 
+                        onAction="#handleConfirmar" disable="true"
+                        style="-fx-background-color: #27ae60;">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2c-check-circle" iconSize="18"/>
+                    </graphic>
+                </Button>
+                
+                <Button fx:id="btnCancelar" text="Cancelar" styleClass="toolbar-button" 
+                        onAction="#handleCancelar" disable="true"
+                        style="-fx-background-color: #e74c3c;">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2c-close-circle" iconSize="18"/>
+                    </graphic>
+                </Button>
+                
+                <Separator orientation="VERTICAL" prefHeight="30"/>
+                
+                <Label text="Status:" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="filterStatus" minWidth="100" prefWidth="120" style="-fx-padding: 5px;"/>
+                
+                <TextField fx:id="searchField" promptText="Pesquisar..." 
+                           style="-fx-padding: 8px; -fx-font-size: 12px;" 
+                           onKeyReleased="#handleSearch"
+                           minWidth="150" HBox.hgrow="ALWAYS"/>
+            </HBox>
+            
+            <!-- Tabela de Reservas -->
+            <TableView fx:id="reservasTable" styleClass="table-view" VBox.vgrow="ALWAYS" minWidth="580" minHeight="300">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" minWidth="50" prefWidth="60" sortable="true"/>
+                    <TableColumn fx:id="colUsuarioId" text="Usuário" minWidth="120" prefWidth="180" sortable="true"/>
+                    <TableColumn fx:id="colExemplarId" text="Exemplar" minWidth="150" prefWidth="220" sortable="true"/>
+                    <TableColumn fx:id="colData" text="Data da Reserva" minWidth="100" prefWidth="130" sortable="true"/>
+                    <TableColumn fx:id="colPosicaoFila" text="Posição na Fila" minWidth="80" prefWidth="110" sortable="true"/>
+                    <TableColumn fx:id="colStatus" text="Status" minWidth="80" prefWidth="110" sortable="true"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </ScrollPane>
+    
+    <padding>
+        <Insets top="10" right="20" bottom="10" left="20"/>
+    </padding>
+</VBox>

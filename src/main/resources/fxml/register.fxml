@@ -59,6 +59,14 @@
                 </HBox>
             </VBox>
             
+            <VBox spacing="5">
+                <Label text="Perfil" styleClass="form-label"/>
+                <HBox styleClass="input-container">
+                    <FontIcon iconLiteral="mdi2s-shield-account" iconSize="20" styleClass="input-icon"/>
+                    <ComboBox fx:id="perfilComboBox" promptText="Selecione seu perfil" styleClass="form-input" prefWidth="300"/>
+                </HBox>
+            </VBox>
+            
         </VBox>
         
         <!-- Botões de Ação -->

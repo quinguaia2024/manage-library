@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ao.co.imetro.sgbu.controller.EstatisticasController"
+      spacing="25" alignment="TOP_LEFT">
+    
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <FontIcon iconLiteral="mdi2c-chart-line" iconSize="36" iconColor="#0a2463"/>
+        <Text text="Estatísticas e Análises Avançadas" styleClass="page-title"/>
+    </HBox>
+    
+    <!-- Filtros -->
+    <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-padding: 20px; -fx-background-radius: 12px;">
+        <VBox spacing="5">
+            <Text text="Período" style="-fx-font-size: 12px; -fx-fill: #7f8c8d;"/>
+            <ComboBox fx:id="periodoCombo" prefWidth="200"/>
+        </VBox>
+        
+        <VBox spacing="5">
+            <Text text="Data Inicial" style="-fx-font-size: 12px; -fx-fill: #7f8c8d;"/>
+            <DatePicker fx:id="dataInicialPicker" prefWidth="150"/>
+        </VBox>
+        
+        <VBox spacing="5">
+            <Text text="Data Final" style="-fx-font-size: 12px; -fx-fill: #7f8c8d;"/>
+            <DatePicker fx:id="dataFinalPicker" prefWidth="150"/>
+        </VBox>
+        
+        <Region HBox.hgrow="ALWAYS"/>
+        
+        <VBox spacing="5" alignment="BOTTOM_RIGHT">
+            <Button text="Atualizar" styleClass="btn-primary" onAction="#atualizarEstatisticas">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2r-refresh" iconSize="16"/>
+                </graphic>
+            </Button>
+        </VBox>
+        
+        <VBox spacing="5" alignment="BOTTOM_RIGHT">
+            <Button text="Exportar PDF" styleClass="btn-secondary" onAction="#exportarPDF">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2f-file-pdf-box" iconSize="16"/>
+                </graphic>
+            </Button>
+        </VBox>
+    </HBox>
+    
+    <!-- Cards de Resumo -->
+    <GridPane hgap="20" vgap="20">
+        <!-- Card: Total Empréstimos no Período -->
+        <VBox styleClass="stat-card" spacing="15" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="240">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane style="-fx-background-color: #e3f2fd; -fx-background-radius: 12px; -fx-pref-width: 50px; -fx-pref-height: 50px;">
+                    <FontIcon iconLiteral="mdi2s-swap-horizontal-bold" iconSize="28" iconColor="#1d72b8"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Text fx:id="totalEmprestimosPeriodoText" text="0" styleClass="stat-value"/>
+                    <Text text="Empréstimos" styleClass="stat-label"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        
+        <!-- Card: Taxa de Devolução -->
+        <VBox styleClass="stat-card" spacing="15" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="240">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane style="-fx-background-color: #e8f5e9; -fx-background-radius: 12px; -fx-pref-width: 50px; -fx-pref-height: 50px;">
+                    <FontIcon iconLiteral="mdi2c-check-circle" iconSize="28" iconColor="#4caf50"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Text fx:id="taxaDevolucaoText" text="0%" styleClass="stat-value"/>
+                    <Text text="Taxa Devolução" styleClass="stat-label"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        
+        <!-- Card: Média Diária -->
+        <VBox styleClass="stat-card" spacing="15" GridPane.columnIndex="2" GridPane.rowIndex="0" prefWidth="240">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane style="-fx-background-color: #fff3e0; -fx-background-radius: 12px; -fx-pref-width: 50px; -fx-pref-height: 50px;">
+                    <FontIcon iconLiteral="mdi2c-chart-timeline-variant" iconSize="28" iconColor="#ff9800"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Text fx:id="mediaDiariaText" text="0" styleClass="stat-value"/>
+                    <Text text="Média Diária" styleClass="stat-label"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        
+        <!-- Card: Receita Multas -->
+        <VBox styleClass="stat-card" spacing="15" GridPane.columnIndex="3" GridPane.rowIndex="0" prefWidth="240">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane style="-fx-background-color: #ffebee; -fx-background-radius: 12px; -fx-pref-width: 50px; -fx-pref-height: 50px;">
+                    <FontIcon iconLiteral="mdi2c-cash-multiple" iconSize="28" iconColor="#f44336"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Text fx:id="receitaMultasText" text="0 Kz" styleClass="stat-value"/>
+                    <Text text="Receita Multas" styleClass="stat-label"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </GridPane>
+    
+    <!-- Gráficos Principais -->
+    <GridPane hgap="20" vgap="20">
+        <!-- Gráfico 1: Empréstimos por Período -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="540" prefHeight="350">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <FontIcon iconLiteral="mdi2c-chart-line" iconSize="24" iconColor="#1d72b8"/>
+                <Text text="Evolução de Empréstimos" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            </HBox>
+            <Separator/>
+            <LineChart fx:id="emprestimosLineChart" prefHeight="270" legendVisible="true" animated="true">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Período"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Quantidade"/>
+                </yAxis>
+            </LineChart>
+        </VBox>
+        
+        <!-- Gráfico 2: Top 10 Obras Mais Emprestadas -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="540" prefHeight="350">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <FontIcon iconLiteral="mdi2c-chart-bar" iconSize="24" iconColor="#ff9800"/>
+                <Text text="Top 10 Obras Mais Emprestadas" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            </HBox>
+            <Separator/>
+            <BarChart fx:id="obrasBarChart" prefHeight="270" legendVisible="false" categoryGap="5" animated="true">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Obra"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Empréstimos"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+        
+        <!-- Gráfico 3: Distribuição por Status -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="540" prefHeight="350">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <FontIcon iconLiteral="mdi2c-chart-pie" iconSize="24" iconColor="#4caf50"/>
+                <Text text="Status dos Empréstimos" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            </HBox>
+            <Separator/>
+            <PieChart fx:id="statusPieChart" prefHeight="270" legendVisible="true" legendSide="RIGHT" animated="true"/>
+        </VBox>
+        
+        <!-- Gráfico 4: Categorias Mais Populares -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="540" prefHeight="350">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <FontIcon iconLiteral="mdi2c-chart-donut" iconSize="24" iconColor="#9c27b0"/>
+                <Text text="Categorias Mais Procuradas" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            </HBox>
+            <Separator/>
+            <PieChart fx:id="categoriasPieChart" prefHeight="270" legendVisible="true" legendSide="RIGHT" animated="true"/>
+        </VBox>
+    </GridPane>
+    
+    <!-- Análise de Usuários -->
+    <GridPane hgap="20" vgap="20">
+        <!-- Usuários Mais Ativos -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="540" prefHeight="350">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <FontIcon iconLiteral="mdi2a-account-star" iconSize="24" iconColor="#2196f3"/>
+                <Text text="Top 10 Usuários Mais Ativos" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            </HBox>
+            <Separator/>
+            <TableView fx:id="usuariosAtivosTable" prefHeight="270">
+                <columns>
+                    <TableColumn text="Posição" prefWidth="70" fx:id="colPosicao"/>
+                    <TableColumn text="Usuário" prefWidth="220" fx:id="colUsuario"/>
+                    <TableColumn text="Empréstimos" prefWidth="120" fx:id="colEmprestimos"/>
+                    <TableColumn text="Status" prefWidth="120" fx:id="colStatus"/>
+                </columns>
+            </TableView>
+        </VBox>
+        
+        <!-- Resumo Financeiro Detalhado -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="540" prefHeight="350">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <FontIcon iconLiteral="mdi2c-cash-register" iconSize="24" iconColor="#f44336"/>
+                <Text text="Análise Financeira - Multas" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            </HBox>
+            <Separator/>
+            <VBox spacing="20" style="-fx-padding: 15px;">
+                <HBox alignment="CENTER" spacing="15">
+                    <VBox alignment="CENTER" spacing="8" style="-fx-background-color: #ffebee; -fx-padding: 15px; -fx-background-radius: 8px;" HBox.hgrow="ALWAYS">
+                        <FontIcon iconLiteral="mdi2a-alert-circle" iconSize="32" iconColor="#f44336"/>
+                        <Text text="Multas Abertas" style="-fx-font-size: 11px; -fx-fill: #7f8c8d;"/>
+                        <Text fx:id="multasAbertasValorText" text="0,00 Kz" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #f44336;"/>
+                        <Text fx:id="multasAbertasQtdText" text="0 multas" style="-fx-font-size: 10px; -fx-fill: #7f8c8d;"/>
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" spacing="8" style="-fx-background-color: #e8f5e9; -fx-padding: 15px; -fx-background-radius: 8px;" HBox.hgrow="ALWAYS">
+                        <FontIcon iconLiteral="mdi2c-check-circle" iconSize="32" iconColor="#4caf50"/>
+                        <Text text="Multas Pagas" style="-fx-font-size: 11px; -fx-fill: #7f8c8d;"/>
+                        <Text fx:id="multasPagasValorText" text="0,00 Kz" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #4caf50;"/>
+                        <Text fx:id="multasPagasQtdText" text="0 multas" style="-fx-font-size: 10px; -fx-fill: #7f8c8d;"/>
+                    </VBox>
+                </HBox>
+                
+                <Separator/>
+                
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <FontIcon iconLiteral="mdi2t-trophy" iconSize="24" iconColor="#ff9800"/>
+                    <VBox spacing="3">
+                        <Text text="Total Arrecadado no Período" style="-fx-font-size: 12px; -fx-fill: #7f8c8d;"/>
+                        <Text fx:id="totalArrecadadoText" text="0,00 Kz" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+                    </VBox>
+                </HBox>
+                
+                <Separator/>
+                
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <FontIcon iconLiteral="mdi2c-clock-alert-outline" iconSize="24" iconColor="#ff5722"/>
+                    <VBox spacing="3">
+                        <Text text="Empréstimos Atrasados" style="-fx-font-size: 12px; -fx-fill: #7f8c8d;"/>
+                        <Text fx:id="emprestimosAtrasadosText" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #ff5722;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </VBox>
+    </GridPane>
+    
+    <!-- Análise por Horário -->
+    <VBox styleClass="stat-card" spacing="10" prefWidth="1100">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <FontIcon iconLiteral="mdi2c-clock-outline" iconSize="24" iconColor="#673ab7"/>
+            <Text text="Distribuição de Empréstimos por Horário" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+        </HBox>
+        <Separator/>
+        <BarChart fx:id="horarioBarChart" prefHeight="250" legendVisible="false" animated="true">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" label="Horário"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" label="Quantidade"/>
+            </yAxis>
+        </BarChart>
+    </VBox>
+    
+</VBox>

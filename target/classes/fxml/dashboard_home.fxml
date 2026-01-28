@@ -10,11 +10,12 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ao.co.imetro.sgbu.controller.DashboardController"
       spacing="25" alignment="TOP_LEFT">
     <Text text="Dashboard" styleClass="page-title"/>
     
     <!-- Cards de Estatísticas -->
-    <GridPane hgap="20" vgap="20">
+    <GridPane fx:id="statsGrid" hgap="20" vgap="20">
         <!-- Card 1: Total de Livros -->
         <VBox styleClass="stat-card" spacing="15" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="280">
             <HBox alignment="CENTER_LEFT" spacing="15">
@@ -22,7 +23,7 @@
                     <FontIcon iconLiteral="mdi2b-book-multiple" iconSize="32" iconColor="#1d72b8"/>
                 </StackPane>
                 <VBox spacing="5">
-                    <Text text="0" styleClass="stat-value"/>
+                    <Text fx:id="totalLivrosText" text="0" styleClass="stat-value"/>
                     <Text text="Total de Livros" styleClass="stat-label"/>
                 </VBox>
             </HBox>
@@ -35,7 +36,7 @@
                     <FontIcon iconLiteral="mdi2s-swap-horizontal-bold" iconSize="32" iconColor="#ff9800"/>
                 </StackPane>
                 <VBox spacing="5">
-                    <Text text="0" styleClass="stat-value"/>
+                    <Text fx:id="emprestimosAtivosText" text="0" styleClass="stat-value"/>
                     <Text text="Empréstimos Ativos" styleClass="stat-label"/>
                 </VBox>
             </HBox>
@@ -48,7 +49,7 @@
                     <FontIcon iconLiteral="mdi2a-alert-circle" iconSize="32" iconColor="#f44336"/>
                 </StackPane>
                 <VBox spacing="5">
-                    <Text text="0" styleClass="stat-value"/>
+                    <Text fx:id="multasPendentesText" text="0" styleClass="stat-value"/>
                     <Text text="Multas Pendentes" styleClass="stat-label"/>
                 </VBox>
             </HBox>
@@ -61,7 +62,7 @@
                     <FontIcon iconLiteral="mdi2a-account-multiple" iconSize="32" iconColor="#4caf50"/>
                 </StackPane>
                 <VBox spacing="5">
-                    <Text text="0" styleClass="stat-value"/>
+                    <Text fx:id="totalUtentesText" text="0" styleClass="stat-value"/>
                     <Text text="Utentes Registados" styleClass="stat-label"/>
                 </VBox>
             </HBox>
@@ -76,3 +77,4 @@
         <Text text="Utilize o menu lateral para navegar entre as funcionalidades do sistema." style="-fx-font-size: 13px; -fx-fill: #2c3e50;"/>
     </VBox>
 </VBox>
+

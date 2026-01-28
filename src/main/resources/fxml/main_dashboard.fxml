@@ -8,11 +8,11 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
             fx:controller="ao.co.imetro.sgbu.controller.MainController"
-            styleClass="dashboard-container" prefWidth="1280" prefHeight="720">
+            styleClass="dashboard-container" prefWidth="1024" prefHeight="768">
     
     <!-- SIDEBAR ESQUERDA - MENU DE NAVEGAÇÃO -->
     <left>
-        <VBox styleClass="sidebar" spacing="5">
+        <VBox styleClass="sidebar" spacing="5" prefWidth="250">
             <!-- Cabeçalho da Sidebar -->
             <VBox styleClass="sidebar-header" spacing="10">
                 <HBox alignment="CENTER" spacing="10">
@@ -21,7 +21,7 @@
                 <Text text="SGBU" styleClass="sidebar-title" textAlignment="CENTER"/>
             </VBox>
             
-            <Separator prefWidth="250" style="-fx-background-color: rgba(255,255,255,0.2);"/>
+            <Separator style="-fx-background-color: rgba(255,255,255,0.2);"/>
             
             <!-- Botões do Menu -->
             <VBox spacing="2" VBox.vgrow="ALWAYS">
@@ -32,15 +32,15 @@
                     </graphic>
                 </Button>
                 
-                <Button fx:id="btnAcervo" text="Gestão de Acervo" styleClass="menu-button" 
+                <Button fx:id="btnAcervo" text="Gestão de Obras" styleClass="menu-button" 
                         onAction="#handleAcervo">
                     <graphic>
                         <FontIcon iconLiteral="mdi2b-bookshelf" iconSize="20"/>
                     </graphic>
                 </Button>
                 
-                <Button fx:id="btnUtentes" text="Gestão de Utentes" styleClass="menu-button" 
-                        onAction="#handleUtentes">
+                <Button fx:id="btnUsuarios" text="Gestão de Usuário" styleClass="menu-button" 
+                        onAction="#handleUsuarios">
                     <graphic>
                         <FontIcon iconLiteral="mdi2a-account-group" iconSize="20"/>
                     </graphic>
@@ -53,17 +53,45 @@
                     </graphic>
                 </Button>
                 
-                <Button fx:id="btnRelatorios" text="Relatórios" styleClass="menu-button" 
-                        onAction="#handleRelatorios">
+                <Button fx:id="btnExemplares" text="Exemplares" styleClass="menu-button" 
+                        onAction="#handleExemplares">
                     <graphic>
-                        <FontIcon iconLiteral="mdi2c-chart-bar" iconSize="20"/>
+                        <FontIcon iconLiteral="mdi2b-book-open-variant" iconSize="20"/>
+                    </graphic>
+                </Button>
+                
+                <Button fx:id="btnMultas" text="Multas" styleClass="menu-button" 
+                        onAction="#handleMultas">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2c-cash" iconSize="20"/>
+                    </graphic>
+                </Button>
+                
+                <Button fx:id="btnReservas" text="Reservas" styleClass="menu-button" 
+                        onAction="#handleReservas">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2b-bookmark-check" iconSize="20"/>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="btnConfiguracoes" text="Configurações" styleClass="menu-button"
+                        onAction="#handleConfiguracoes">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2c-cog" iconSize="20"/>
+                    </graphic>
+                </Button>
+                
+                <Button fx:id="btnEstatisticas" text="Estatísticas" styleClass="menu-button"
+                        onAction="#handleEstatisticas">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2c-chart-box" iconSize="20"/>
                     </graphic>
                 </Button>
                 
                 <!-- Spacer -->
                 <Region VBox.vgrow="ALWAYS"/>
                 
-                <Separator prefWidth="250" style="-fx-background-color: rgba(255,255,255,0.2);"/>
+                <Separator style="-fx-background-color: rgba(255,255,255,0.2);"/>
                 
                 <Button text="Sair" styleClass="menu-button" onAction="#handleLogout">
                     <graphic>
@@ -76,10 +104,10 @@
     
     <!-- ÁREA CENTRAL - CONTEÚDO DINÂMICO -->
     <center>
-        <StackPane fx:id="contentArea" styleClass="content-area">
-            <!-- Conteúdo será carregado dinamicamente aqui -->
-            <!-- Conteúdo será carregado dinamicamente aqui -->
-
-        </StackPane>
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+            <StackPane fx:id="contentArea" styleClass="content-area">
+                <!-- Conteúdo será carregado dinamicamente aqui -->
+            </StackPane>
+        </ScrollPane>
     </center>
 </BorderPane>

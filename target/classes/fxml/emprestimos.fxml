@@ -8,83 +8,93 @@
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
       fx:controller="ao.co.imetro.sgbu.controller.EmprestimosController"
-      spacing="20" styleClass="content-view">
+      spacing="20" styleClass="content-area" minWidth="600" minHeight="400">
     
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
-
-    <!-- Header -->
-    <HBox alignment="CENTER_LEFT" spacing="20">
-        <VBox>
-            <Text text="Gestão de Empréstimos" styleClass="page-title"/>
-            <Text text="Controle de saídas e devoluções" styleClass="page-subtitle"/>
-        </VBox>
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Text text="Gestão de Empréstimos" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Text text="Controle de saídas e devoluções" style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"/>
     </HBox>
 
-    <TabPane VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-            <Tab text="Empréstimos Ativos">
-                <content>
-                    <VBox spacing="10" style="-fx-padding: 15;">
-                        <TableView fx:id="activeLoansTable" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn text="ID" />
-                                <TableColumn text="Utente" prefWidth="200"/>
-                                <TableColumn text="Livro" prefWidth="200"/>
-                                <TableColumn text="Data Empréstimo" />
-                                <TableColumn text="Data Devolução" />
-                                <TableColumn text="Status" />
-                                <TableColumn text="Ações" />
-                            </columns>
-                            <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                            </columnResizePolicy>
-                        </TableView>
-                    </VBox>
-                </content>
-            </Tab>
-            <Tab text="Novo Empréstimo">
-                <content>
-                     <VBox spacing="20" style="-fx-padding: 20;" alignment="TOP_CENTER">
-                        <GridPane hgap="20" vgap="20" alignment="CENTER" maxWidth="600">
-                             <Label text="Utente:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                             <ComboBox promptText="Selecione o Utente" prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-                             <Label text="Livro:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                             <ComboBox promptText="Selecione o Livro" prefWidth="300" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-                             <Label text="Data Devolução:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                             <DatePicker prefWidth="300" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                        </GridPane>
-                        
-                        <Button text="Registrar Empréstimo" styleClass="btn-primary" prefWidth="200">
-                             <graphic>
-                                <FontIcon iconLiteral="mdi2c-check" iconSize="18"/>
-                            </graphic>
-                        </Button>
-                     </VBox>
-                </content>
-            </Tab>
-             <Tab text="Histórico">
-                <content>
-                    <VBox spacing="10" style="-fx-padding: 15;">
-                        <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn text="ID" />
-                                <TableColumn text="Utente" />
-                                <TableColumn text="Livro" />
-                                <TableColumn text="Data Devolução" />
-                                <TableColumn text="Multa" />
-                            </columns>
-                             <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                            </columnResizePolicy>
-                        </TableView>
-                    </VBox>
-                </content>
-            </Tab>
-        </tabs>
-    </TabPane>
-
+    <!-- Abas de Empréstimos -->
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
+        <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE" minWidth="580">
+            <tabs>
+                <!-- Aba: Empréstimos Ativos -->
+                <Tab fx:id="tabEmprestimosAtivos" text="Empréstimos Ativos" closable="false">
+                    <content>
+                        <VBox spacing="15" style="-fx-padding: 15;">
+                            <!-- Barra de Ferramentas -->
+                            <HBox styleClass="toolbar" spacing="15" alignment="CENTER_LEFT">
+                                <Button fx:id="btnNovoEmprestimo" text="Novo Empréstimo" styleClass="toolbar-button" 
+                                        onAction="#handleNovoEmprestimo"
+                                        style="-fx-background-color: #3498db;">
+                                    <graphic>
+                                        <FontIcon iconLiteral="mdi2p-plus-circle" iconSize="18"/>
+                                    </graphic>
+                                </Button>
+                                
+                                <Button fx:id="btnDevolver" text="Devolver" styleClass="toolbar-button" 
+                                        onAction="#handleDevolver" disable="true"
+                                        style="-fx-background-color: #27ae60;">
+                                    <graphic>
+                                        <FontIcon iconLiteral="mdi2c-check-circle" iconSize="18"/>
+                                    </graphic>
+                                </Button>
+                                
+                                <Button fx:id="btnRenovar" text="Renovar" styleClass="toolbar-button" 
+                                        onAction="#handleRenovar" disable="true"
+                                        style="-fx-background-color: #3498db;">
+                                    <graphic>
+                                        <FontIcon iconLiteral="mdi2r-refresh" iconSize="18"/>
+                                    </graphic>
+                                </Button>
+                            </HBox>
+                            
+                            <!-- Tabela de Empréstimos Ativos -->
+                            <TableView fx:id="activeLoansTable" styleClass="table-view" VBox.vgrow="ALWAYS" minWidth="550">
+                                <columns>
+                                    <TableColumn fx:id="colIdAtivo" text="ID" minWidth="50" prefWidth="60" sortable="true"/>
+                                    <TableColumn fx:id="colUsuarioAtivo" text="Utente" minWidth="120" prefWidth="180" sortable="true"/>
+                                    <TableColumn fx:id="colObraAtivo" text="Livro" minWidth="150" prefWidth="200" sortable="true"/>
+                                    <TableColumn fx:id="colDataEmpAtivo" text="Data Empréstimo" minWidth="100" prefWidth="130" sortable="true"/>
+                                    <TableColumn fx:id="colDataDevAtivo" text="Data Devolução" minWidth="100" prefWidth="130" sortable="true"/>
+                                    <TableColumn fx:id="colRenovAtivo" text="Renovações" minWidth="80" prefWidth="100" sortable="true"/>
+                                </columns>
+                                <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                </columnResizePolicy>
+                            </TableView>
+                        </VBox>
+                    </content>
+                </Tab>
+                
+                <!-- Aba: Histórico de Empréstimos -->
+                <Tab fx:id="tabHistorico" text="Histórico" closable="false">
+                    <content>
+                        <VBox spacing="15" style="-fx-padding: 15;">
+                            <!-- Tabela de Histórico -->
+                            <TableView fx:id="historyTable" styleClass="table-view" VBox.vgrow="ALWAYS" minWidth="550">
+                                <columns>
+                                    <TableColumn fx:id="colIdHistorico" text="ID" minWidth="50" prefWidth="60" sortable="true"/>
+                                    <TableColumn fx:id="colUsuarioHistorico" text="Utente" minWidth="120" prefWidth="180" sortable="true"/>
+                                    <TableColumn fx:id="colObraHistorico" text="Livro" minWidth="150" prefWidth="200" sortable="true"/>
+                                    <TableColumn fx:id="colDataEmpHistorico" text="Data Empréstimo" minWidth="100" prefWidth="130" sortable="true"/>
+                                    <TableColumn fx:id="colDataDevHistorico" text="Data Devolução" minWidth="100" prefWidth="130" sortable="true"/>
+                                </columns>
+                                <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                </columnResizePolicy>
+                            </TableView>
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </ScrollPane>
+    
+    <padding>
+        <Insets top="10" right="20" bottom="10" left="20"/>
+    </padding>
 </VBox>

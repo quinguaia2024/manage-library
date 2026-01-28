@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="ao.co.imetro.sgbu.controller.ObrasController"
+      spacing="20" styleClass="content-area">
+    
+    <!-- Cabeçalho -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Text text="Gestão de Obras" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Text text="Acervo Bibliográfico" style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"/>
+    </HBox>
+    
+    <!-- Barra de Ferramentas -->
+    <HBox styleClass="toolbar" spacing="15" alignment="CENTER_LEFT">
+        <Button fx:id="btnNovaObra" text="Nova Obra" styleClass="toolbar-button" 
+                onAction="#handleNovaObra">
+            <graphic>
+                <FontIcon iconLiteral="mdi2p-plus-circle" iconSize="18"/>
+            </graphic>
+        </Button>
+        
+        <Button fx:id="btnEditar" text="Editar" styleClass="toolbar-button" 
+                onAction="#handleEditar" disable="true"
+                style="-fx-background-color: #3e5c76;">
+            <graphic>
+                <FontIcon iconLiteral="mdi2p-pencil" iconSize="18"/>
+            </graphic>
+        </Button>
+        
+        <Button fx:id="btnRemover" text="Remover" styleClass="toolbar-button" 
+                onAction="#handleRemover" disable="true"
+                style="-fx-background-color: #e74c3c;">
+            <graphic>
+                <FontIcon iconLiteral="mdi2d-delete" iconSize="18"/>
+            </graphic>
+        </Button>
+        
+        <Separator orientation="VERTICAL" prefHeight="30"/>
+        
+        <TextField fx:id="searchField" promptText="Pesquisar por título, autor ou ISBN..." 
+                   style="-fx-padding: 8px; -fx-font-size: 12px;" 
+                   onKeyReleased="#handleSearch"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+    
+    <!-- Tabela de Obras -->
+    <TableView fx:id="obrasTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="50" sortable="true"/>
+            <TableColumn fx:id="colTitulo" text="Título" prefWidth="200" sortable="true"/>
+            <TableColumn fx:id="colAutor" text="Autor" prefWidth="150" sortable="true"/>
+            <TableColumn fx:id="colIsbn" text="ISBN" prefWidth="130" sortable="true"/>
+            <TableColumn fx:id="colEditora" text="Editora" prefWidth="150" sortable="true"/>
+            <TableColumn fx:id="colAno" text="Ano" prefWidth="80" sortable="true"/>
+            <TableColumn fx:id="colPaginas" text="Páginas" prefWidth="80" sortable="true"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+    
+    <padding>
+        <Insets top="10" right="20" bottom="10" left="20"/>
+    </padding>
+</VBox>
